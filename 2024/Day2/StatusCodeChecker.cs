@@ -27,6 +27,41 @@ namespace Day2 {
             return CheckCodesRecursively(statusValues, startingIndex: 0, minDifference, maxDifference, codesShouldBeAscending);
         }
 
+        /// <summary>This Method checks if the provided StatusCodes are valid, but it tolerates exactly one error</summary>
+        /// <param name="statusValues">The StatusValues, the status code consists of</param>
+        /// <param name="minDifference">The minimal difference between different StatusValues</param>
+        /// <param name="maxDifference">The maximal difference between different StatusValues</param>
+        /// <returns>True -> If the StatusCode is valid<br/>False -> If the StatusCode is invalid</returns>
+        public static bool CheckStatusCodeTolerateOneError(ImmutableArray<ushort> statusValues, in ushort minDifference, in ushort maxDifference) {
+            ImmutableArray<ushort> currentVersionOfStatusValuesToCheck = statusValues; // This is ok because the ImmutableArray is a struct
+
+            //Todo: This is a sloppy implementation, where the amount of errors is not configurable
+            // It should be possible to make the amount of errors, that are tolerated, configurable - I just wanted to get done with it at this moment
+            int i = -1;
+            do {
+                ushort currentStatusCode = currentVersionOfStatusValuesToCheck[0];
+                ushort nextStatusCode = currentVersionOfStatusValuesToCheck[1];
+
+                // If the Check goes right we are done
+                if(currentStatusCode != nextStatusCode && // If the codes are equal we fail
+                   true == CheckCodesRecursively(currentVersionOfStatusValuesToCheck, startingIndex: 0, minDifference, maxDifference, currentStatusCode < nextStatusCode)) {
+                    return true;
+                }
+
+                // If the check was not successful, try again with another value removed
+                i += 1;
+                if(statusValues.Length == i || // If we are at the end of the array and still the check did not go right once
+                   statusValues.Length == 2) /* If we can not shorten the Array because then it would just be one entry */ {
+                    return false;
+                }
+
+                currentVersionOfStatusValuesToCheck = statusValues.RemoveAt(i); // Get new set of values to check
+            } while(i < statusValues.Length);
+
+            // If none of the checks were acceptable return false
+            return false;
+        }
+
         /// <summary>Checks the StatusValues recursively</summary>
         /// <param name="statusValues">The StatusValues to check</param>
         /// <param name="startingIndex">The current position that should be checked</param>

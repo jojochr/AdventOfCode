@@ -11,9 +11,11 @@ int safeReports = rawReactorCodes.Count(statusValues => true == StatusCodeChecke
 
 Console.WriteLine($"Result for Day 2: \"{safeReports}\"");
 
-// Todo: Do Day 2 Part 2 :)
-// Console.WriteLine();
-// Console.WriteLine("Starting Part 2:");
-// Console.WriteLine($"Result for Part 2 of Day 1 is: \"{similarityScore}\"");
+Console.WriteLine();
+Console.WriteLine("Starting Part 2:");
 
+int safeReportsWithErrorTolerance =
+    rawReactorCodes.Count(statusValues => true == StatusCodeChecker.CheckStatusCodeTolerateOneError(statusValues, MIN_STATUS_CODE_DIFFERENCE, MAX_STATUS_CODE_DIFFERENCE));
+
+Console.WriteLine($"Result for Part 2 of Day 2: \"{safeReportsWithErrorTolerance}\"");
 Console.ReadKey();
