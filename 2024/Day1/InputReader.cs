@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text;
 
 namespace Day1 {
@@ -7,10 +6,8 @@ namespace Day1 {
             int[] leftNumbersRaw = new int[1_000];
             int[] rightNumbersRaw = new int[1_000];
 
-
-
             using FileStream fileStream = new(Path.Combine(Directory.GetCurrentDirectory(), "Day1-Input.txt"), FileMode.Open, FileAccess.ReadWrite);
-            using StreamReader streamReader = new StreamReader(fileStream, Encoding.UTF8, true);
+            using StreamReader streamReader = new StreamReader(fileStream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
 
             if(streamReader is null) {
                 throw new Exception("Failed to open input file");
@@ -19,6 +16,8 @@ namespace Day1 {
             int index = 0;
             while(streamReader.EndOfStream == false) {
                 string inputLine = streamReader.ReadLine() ?? string.Empty;
+
+                // Split on Spaces and remove all empty entries or else we'll get empty strings where the spaces were
                 string[] inputsElements = inputLine.Split(separator: ' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
                 if(inputsElements.Length != 2) {

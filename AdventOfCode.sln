@@ -1,8 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day1", "Day1\Day1.csproj", "{0CD370FE-3A8D-4BA1-AD06-673EF6B3F454}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day1", "2024\Day1\Day1.csproj", "{0CD370FE-3A8D-4BA1-AD06-673EF6B3F454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2", "Day2\Day2.csproj", "{9B193C8A-1D47-4874-B91E-A0541787BA44}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2", "2024\Day2\Day2.csproj", "{9B193C8A-1D47-4874-B91E-A0541787BA44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2024", "2024", "{50C565AA-5BBD-48B3-AD1E-B325C7AFE6B0}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "2024\Shared\Shared.shproj", "{4EE272ED-2502-45FD-805D-9B69C38F085D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{0A0D6E78-3012-44FF-B3B9-E50318EDA454}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,5 +30,16 @@ Global
 		{9B193C8A-1D47-4874-B91E-A0541787BA44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B193C8A-1D47-4874-B91E-A0541787BA44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B193C8A-1D47-4874-B91E-A0541787BA44}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0CD370FE-3A8D-4BA1-AD06-673EF6B3F454} = {50C565AA-5BBD-48B3-AD1E-B325C7AFE6B0}
+		{9B193C8A-1D47-4874-B91E-A0541787BA44} = {50C565AA-5BBD-48B3-AD1E-B325C7AFE6B0}
+		{4EE272ED-2502-45FD-805D-9B69C38F085D} = {50C565AA-5BBD-48B3-AD1E-B325C7AFE6B0}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		2024\Shared\Shared.projitems*{4ee272ed-2502-45fd-805d-9b69c38f085d}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
