@@ -19,11 +19,81 @@ while(index < input.Length) {
 }
 
 Console.WriteLine($"Result for Day 3: \"{result}\"");
+
+Console.WriteLine();
+Console.WriteLine("Starting part 2:");
+
+const string C_ACTIVATION = @"do()";
+const string C_DEACTIVATION = @"don't()";
+
+bool activated = true;
+result = 0;
+index = 0;
+
+while(index < input.Length) {
+    // Check Activation
+    if(input[index] == 'd') {
+        bool? maybeActivation = CheckForActivation(input, ref index);
+        if(maybeActivation is bool activation) {
+            activated = activation;
+        }
+    }
+
+    if(activated && input[index] == C_METHOD_NAME[0]) {
+        result += TryDoMultiplicationFromHere(input, ref index, C_METHOD_NAME, C_MAX_NUMBER_LENGTH);
+    }
+
+    index++;
+}
+
+Console.WriteLine($"Result from Day 3 Part 2: \"{(result)}\"");
 Console.ReadKey();
 
-//Todo: Do Part 2
-
 return;
+
+static bool? CheckForActivation(string input, ref int index) {
+    int startIndex = index;
+
+    // Check fo do
+    if(startIndex + C_ACTIVATION.Length - 1 >= input.Length) {
+        index = input.Length - 1;
+        return null;
+    }
+
+    bool foundDo = true;
+    for(int i = 0; (i + startIndex) < (startIndex + C_ACTIVATION.Length); i++) {
+        index = i + startIndex; // Set until where we already checked
+
+        // If the characters don't match we have a mismatch
+        if(input[i + startIndex] != C_ACTIVATION[i]) {
+            foundDo = false;
+            break;
+        }
+    }
+
+    if(foundDo == true) {
+        return true;
+    }
+
+    bool foundDont = true;
+    for(int i = 0; (i + startIndex) < (startIndex + C_DEACTIVATION.Length); i++) {
+        index = i + startIndex; // Set until where we already checked
+
+        // If the characters don't match we have a mismatch
+        if(input[i + startIndex] != C_DEACTIVATION[i]) {
+            foundDont = false;
+            break;
+        }
+    }
+
+    if(foundDont == true) {
+        return false;
+    }
+
+    // If we found neither
+    return null;
+}
+
 
 static long TryDoMultiplicationFromHere(string input, ref int index, string methodName, int maxNumberLength) {
     if(false == CheckMethodName(input, ref index, methodName)) {
@@ -50,7 +120,6 @@ static long TryDoMultiplicationFromHere(string input, ref int index, string meth
         return 0;
     }
 
-    Console.WriteLine($"operator.mul({parameterOne},{parameterTwo})");
     return parameterOne * parameterTwo;
 }
 

@@ -7,8 +7,8 @@ Console.WriteLine("Start of Solution for Day 4:");
 Console.WriteLine($"Result from Day 4: \"{SolvePart1(input)}\"");
 
 Console.WriteLine();
-Console.WriteLine("Start of Solution for Day 4:");
-Console.WriteLine($"Result from Day 4: \"{SolvePart2(input)}\"");
+Console.WriteLine("Starting part 2:");
+Console.WriteLine($"Result from Day 4 Part 2: \"{SolvePart2(input)}\"");
 Console.ReadKey();
 
 
