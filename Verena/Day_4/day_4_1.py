@@ -1,4 +1,3 @@
-import operator
 from pathlib import Path
 import os
 
