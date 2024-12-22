@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35506.116 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day1", "2024\Day1\Day1.csproj", "{0CD370FE-3A8D-4BA1-AD06-673EF6B3F454}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2", "2024\Day2\Day2.csproj", "{9B193C8A-1D47-4874-B91E-A0541787BA44}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2024", "2024", "{50C565AA-5BBD-48B3-AD1E-B325C7AFE6B0}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "2024\Shared\Shared.shproj", "{4EE272ED-2502-45FD-805D-9B69C38F085D}"
@@ -16,9 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day3", "Day3\Day3.csproj", "{976CFA02-B735-430C-A5F6-B627091AF9EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day1", "2024\Day1\Day1.csproj", "{0CD370FE-3A8D-4BA1-AD06-673EF6B3F454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day4", "Day4\Day4.csproj", "{47E5EB48-DFF9-4742-9A9B-81B523C0AA9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2", "2024\Day2\Day2.csproj", "{9B193C8A-1D47-4874-B91E-A0541787BA44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day3", "2024\Day3\Day3.csproj", "{976CFA02-B735-430C-A5F6-B627091AF9EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day4", "2024\Day4\Day4.csproj", "{47E5EB48-DFF9-4742-9A9B-81B523C0AA9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
