@@ -15,7 +15,7 @@ foreach(ImmutableArray<ushort> updateSequence in updates) {
     for(int updateIndex = 0; updateIndex < updateSequence.Length; updateIndex++) {
         ushort updateValue = updateSequence[updateIndex];
 
-        foreach(ushort pageToLookupInRules in updateSequence.Slice(updateIndex + 1, updateSequence.Length - updateIndex - 1)) {
+        foreach(ushort pageToLookupInRules in updateSequence.AsSpan(Range.StartAt(updateIndex + 1))) {
             // If the pageToLookupInRules does not exist in the Rules for the current page
             if(rules[updateValue].Any(pageThatShouldComeAfter => pageToLookupInRules == pageThatShouldComeAfter) == false) {
                 updateSequenceIsOkay = false;
