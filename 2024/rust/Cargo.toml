@@ -1,0 +1,24 @@
+[workspace]
+resolver = "2"
+
+members = [ "Day*"]
+default-members = ["Day*"]
+
+[profile.release]
+panic = "abort"
+
+[profile.dev]
+panic = "abort"
+
+[workspace.lints.rust]
+unsafe_code = "forbid" # You shouldn't write unsafe code in Advent of Code!
+unstable_features = "forbid" # No unstable features for Advent of Code
+dead_code = "allow" # Not important for Advent of code
+
+[workspace.lints.clippy]
+todo = "forbid" # Mark todos as error
+empty_loop = "forbid"
+infinite_loop = "deny"
+mem_forget = "deny" # Forbid memory leaks!
+# Currently, there are no disallowed methods. This line avoids problems when developing Advent of Code.
+disallowed_methods = "allow"
