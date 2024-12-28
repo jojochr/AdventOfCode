@@ -134,18 +134,7 @@ public class Day_9_1 {
             throw new RuntimeException(e);
         }
         var blocks = toBlockArray(input);
-        String testOut = "";
-        for(var block: blocks){
-            testOut += block.toString();
-        }
-        System.out.println("Blocks vor dem Komprimieren: "+ testOut);
         var comprimizedBlocks = compressFiles(blocks);
-        testOut = "";
-        for(var block: comprimizedBlocks){
-            testOut += block.toString();
-        }
-        System.out.println("Blocks nach dem Komprimieren: "+ testOut);
-
         calcCheckSum(comprimizedBlocks);
     }
 }

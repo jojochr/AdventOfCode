@@ -9,23 +9,24 @@ Disk Map:
 - Initiale Stelle des Files ist seine ID
 - 12345 = 0..111....22222
 */
-public class Day_9_1 {
+public class Day_9_2 {
     /// Model für einen Block von Dateien der gleichen ID
     public static class Block {
         /// ID dieses FileBlocks
-        public final int id;
+        public int id;
         /// Anzahl der Dateien bzw. Whitespaces
         public int size;
+
         /// Default constructor
-        public Block(int id, int size){
+        public Block(int id, int size) {
             this.id = id;
             this.size = size;
         }
 
         /// Erzeugt die Darstellung dieses Blocks als String
-        public String toString(){
+        public String toString() {
             String output = "";
-            for(int i = 0; i < size; i++){
+            for (int i = 0; i < size; i++) {
                 output += id == -1 ? "." : id;
             }
             return output;
@@ -35,7 +36,7 @@ public class Day_9_1 {
     /// Liest den Input für diese Aufgabe aus der Quelldatei ein
     public static String readInput() throws Exception {
         BufferedReader br = new BufferedReader(new FileReader("C:\\Git\\AdventOfCode\\Verena\\Day_9\\Day_9\\src\\day_9_input.txt"));
-        try{
+        try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
             while (line != null) {
@@ -44,88 +45,78 @@ public class Day_9_1 {
                 line = br.readLine();
             }
             return sb.toString();
-        }
-        finally {
+        } finally {
             br.close();
         }
     }
 
     /// Konvertiert einen String zeichenweise in ein Block-Array
-    public static Block[] toBlockArray(String input){
+    public static ArrayList<Block> toBlockList(String input) {
         char[] charArray = input.replaceAll("[\n\r]", "").toCharArray();
-        Block[] blocks = new Block[charArray.length];
+        ArrayList<Block> blocks = new ArrayList<>();
         for (int i = 0; i < charArray.length; i++) {
             int id = i % 2 == 0 ? i / 2 : -1; // Gerade id = file, ungerade = free
-            blocks[i] = new Block(id, Character.getNumericValue(charArray[i]));
+            blocks.add(new Block(id, Character.getNumericValue(charArray[i])));
         }
         return blocks;
     }
 
-    /// Komprimiert die Blöcke, sodass sich zwischen den Files kein Whitespace mehr befindet
-    public static Block[] compressFiles(Block[] input){
-        ArrayList<Block> comprimizedBlocks = new ArrayList<>(input.length);
-        int writeIndex = 0;
-        int readIndex = input.length - 1;
-
-        while(writeIndex < readIndex){
-            //Gerader Schreibindex -> File übernehmen
-            if(writeIndex % 2 == 0){
-                comprimizedBlocks.add(input[writeIndex]);
-                writeIndex ++;
+    /// Komprimiert die Blöcke, indem die Files so weit wie möglich nach rechts verschoben werden
+    public static void compressFiles(ArrayList<Block> input) {
+        //Für jeden Block
+        int rightIndex = input.size() - 1;
+        while(rightIndex > 0){
+            var blockToMove = input.get(rightIndex);
+            //Whitespace muss nicht verschoben werden
+            if(blockToMove.id == -1){
+                rightIndex --;
+                continue;
             }
-            //Leerraum mit File vom Ende füllen
-            else{
-                var capacity = input[writeIndex].size;
-                int transferredFiles = 0;
-                //Solange, bis der Whitespace mit Files vom Ende gefüllt wurde
-                while(transferredFiles < capacity){
-
-                    //Sonderfall: Letzter Block
-                    if(readIndex <= writeIndex)
-                        break;
-
-                    var blockToTakeFrom = input[readIndex];
-                    int filesToTransfer = capacity - transferredFiles;
-
-                    //Den gesamten Block übernehmen und Schreibindex auf den nächsten Block setzen
-                    if(blockToTakeFrom.size <= filesToTransfer){
-                        transferredFiles += blockToTakeFrom.size;
-                        comprimizedBlocks.add(blockToTakeFrom);
-                        readIndex -= 2;
-                    }
-                    //Der Block ist größer als die Anzahl der zu übernehmenden Files => Teilblock abspalten
-                    else {
-                        //Anzahl der übertragenen Files vom Restblock abziehen
-                        blockToTakeFrom.size -= filesToTransfer;
-                        transferredFiles += filesToTransfer;
-                        comprimizedBlocks.add(new Block(blockToTakeFrom.id, filesToTransfer));
-                    }
+            for(int leftIndex = 0; leftIndex < rightIndex; leftIndex ++){
+                var spaceToFill = input.get(leftIndex);
+                //In ein File kann nicht geschrieben werden
+                if(spaceToFill.id >= 0){
+                    continue;
                 }
-                //Whitespace wurde gefüllt
-                writeIndex ++;
-            }
-        }
-        //Den letzten Block anhängen
-        comprimizedBlocks.add(input[readIndex]);
 
-        return comprimizedBlocks.toArray(new Block[0]);
+                //Check, ob der block in den aktuellen Platz passt
+                if(blockToMove.size > spaceToFill.size){
+                    continue;
+                }
+                //Der Block passt -> Block verschieben
+                int restCapacity = spaceToFill.size - blockToMove.size;
+                spaceToFill.id = blockToMove.id;
+                spaceToFill.size = blockToMove.size;
+                blockToMove.id = -1;
+                //Block mit Restkapazität einhängen wenn nötig
+                if(restCapacity > 0){
+                    input.add(leftIndex + 1, new Block(-1, restCapacity));
+                }
+                //System.out.println("Moved block " + spaceToFill.toString() + " from index " + rightIndex +" to "+leftIndex);
+                break;
+            }
+            System.out.println("Working from index: " + rightIndex + " ...");
+            rightIndex --;
+        }
     }
 
     /// Berechnet die Checksumme
-    public static void calcCheckSum(Block[] blocks){
+    public static void calcCheckSum(ArrayList<Block> blocks) {
         int counter = 0;
         long checksum = 0;
-        for (var block : blocks){
-            for (int i = 0; i < block.size; i++ ){
-                checksum += (long) counter * block.id;
-                counter ++;
+        for (var block : blocks) {
+            for (int i = 0; i < block.size; i++) {
+                if(block.id > 0){
+                    checksum += (long) counter * block.id;
+                }
+                counter++;
             }
         }
-        System.out.println("Checksum: "+ checksum);
+        System.out.println("Checksum: " + checksum);
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         String input = null;
         try {
@@ -133,19 +124,19 @@ public class Day_9_1 {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        var blocks = toBlockArray(input);
+        var blocks = toBlockList(input);
         String testOut = "";
-        for(var block: blocks){
+        for (var block : blocks) {
             testOut += block.toString();
         }
-        System.out.println("Blocks vor dem Komprimieren: "+ testOut);
-        var comprimizedBlocks = compressFiles(blocks);
+        //System.out.println("Blocks vor dem Komprimieren: " + testOut);
+        compressFiles(blocks);
         testOut = "";
-        for(var block: comprimizedBlocks){
+        for (var block : blocks) {
             testOut += block.toString();
         }
-        System.out.println("Blocks nach dem Komprimieren: "+ testOut);
+        System.out.println("Blocks nach dem Komprimieren: " + testOut);
 
-        calcCheckSum(comprimizedBlocks);
+        calcCheckSum(blocks);
     }
 }

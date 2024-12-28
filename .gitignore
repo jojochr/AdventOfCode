@@ -3,6 +3,7 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+
 # User-specific files
 *.rsuser
 *.suo
@@ -12,7 +13,7 @@
 
 # Jetbrains Gitignore stuff
 .idea/
-
+out
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -395,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+Verena/Day_9/Day_9/out/production/Day_9/Day_9_1.class
