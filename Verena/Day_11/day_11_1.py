@@ -1,11 +1,6 @@
 from pathlib import Path
 import os
 
-
-class ListEntry: 
-    def __init__(self, symbol): 
-        self.symbol = symbol 
-        self.coordinates = []
 # Liest die Inputdatei in einen string. Die einzulesende Datei muss sich im selben Ordner befinden.
 def readInput():
     #Dateipfad zusammenbauen
@@ -46,7 +41,5 @@ def blink(iterations):
             stoneIndex +=1   
         print("Aktuelle Länge: ", len(stones))       
     return len(stones)
-
-
 
 print("Anzahl Steine: ", blink(75))
