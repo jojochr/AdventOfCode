@@ -2,6 +2,7 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Xml.Schema;
 
@@ -51,10 +52,10 @@ namespace ConsoleApp1 {
         {
             //Rechts
             new int[] { 0, 1 },
-            //Links
-            new int[] { 0, -1 },
             //Unten
             new int[] { 1, 0 },
+            //Links
+            new int[] { 0, -1 },
             //Oben
             new int[] { -1, 0 }
         };
@@ -81,21 +82,22 @@ namespace ConsoleApp1 {
 
                     Region currentRegion = new Region(Data[row][col]) {
                         area = 1
-                        ,positions= new List<(int, int)>() {
+                        ,
+                        positions = new List<(int, int)>() {
                             (row, col)
                         }
-                };
+                    };
 
                     //Breitensuche vom aktuellen Punkt aus beginnen
                     visited.Add((row, col));
                     queue.Enqueue((row, col));
-                    while(queue.Count > 0) {                   
+                    while(queue.Count > 0) {
                         var (currentRow, currentCol) = queue.Dequeue();
                         //Alle Nachbarn des aktuellen Punktes auf Gleichheit prüfen
                         foreach(var direction in directions) {
                             var newRow = currentRow + direction[0];
                             var newCol = currentCol + direction[1];
-                           
+
                             if(!checkCoordinates(newRow, newCol)) {
                                 //Ungültiger Arrayzugriff -> Zaun
                                 currentRegion.perimeter++;
@@ -112,7 +114,7 @@ namespace ConsoleApp1 {
                                 //Gleiche Pflanze aber Feld bereits untersucht
                                 continue;
                             }
-                                 
+
                             //Gleiche Pflanze und Teil dieser Fläche
                             currentRegion.area++;
                             currentRegion.positions.Add((newRow, newCol));
@@ -120,22 +122,37 @@ namespace ConsoleApp1 {
                             queue.Enqueue((newRow, newCol));
                         }
                     }
-
+                    currentRegion.sides = getSides(currentRegion);
                     regions.Add(currentRegion);
                 }
             }
             return regions;
         }
 
+        //Prüft, ob zwei koordinaten benachbart sind
+        bool isNeighbour((int, int) first, (int,int) second) {
+
+            //Übereinander
+            if(Math.Abs(first.Item1 - second.Item1) == 1 && first.Item2 == second.Item2)
+                return true;
+            //Nebeneinander
+            if(Math.Abs(first.Item2 - second.Item2) == 1 && first.Item1 == second.Item1)
+                return true;
+            //Weder noch
+            return false;
+
+        }
 
         /// <summary>Berechnet die Anzahl nicht zusammenhängender Umfangsstücke</summary>
         /// <returns></returns>
-        public int getSides() {
+        public int getSides(Region region) {
             //Minimum
             int sides = 4;
-
-
-
+            foreach ((int, int) position in region.positions) {
+               //Anzahl der Nachbarn ermitteln
+               int directneighbours = region.positions.Where(x => isNeighbour(x, position)).Count();
+                Console.WriteLine("Anzahl direkter Nachbarn: " + directneighbours);     
+            }
             return sides;
 
         }
